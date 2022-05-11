@@ -1,7 +1,6 @@
 package com.nfragiskatos.fraggithubbrowser.data.data_source.remote
 
-import com.google.common.truth.Truth
-import com.google.common.truth.Truth.*
+import com.google.common.truth.Truth.assertThat
 import com.nfragiskatos.fraggithubbrowser.data.date_source.remote.GitHubApi
 import com.nfragiskatos.fraggithubbrowser.data.date_source.remote.dto.UserSearchResponseDto
 import com.nfragiskatos.fraggithubbrowser.di.AppModule
@@ -9,7 +8,6 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,7 +15,6 @@ import javax.inject.Inject
 
 @HiltAndroidTest
 @UninstallModules(AppModule::class)
-//@Suppress("IllegalIdentifier")
 class GitHubApiTest {
 
     @get:Rule(order = 0)
@@ -42,6 +39,14 @@ class GitHubApiTest {
 
         assertThat(searchForUser).isNotNull()
         assertThat(searchForUser.items).isNotEmpty()
+    }
+
+    @Test
+    fun testGetUserDetail() = runBlocking {
+        val userDetails = gitHubApi.getUserDetails("nfragiskatos")
+
+        assertThat(userDetails).isNotNull()
+        assertThat(userDetails.login).isEqualTo("nfragiskatos")
     }
 
 }
