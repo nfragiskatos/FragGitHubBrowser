@@ -2,6 +2,8 @@ package com.nfragiskatos.fraggithubbrowser.di
 
 import com.nfragiskatos.fraggithubbrowser.BuildConfig
 import com.nfragiskatos.fraggithubbrowser.data.date_source.remote.GitHubApi
+import com.nfragiskatos.fraggithubbrowser.data.repository.GitHubRepositoryImpl
+import com.nfragiskatos.fraggithubbrowser.domain.repository.GitHubRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,5 +24,11 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(GitHubApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provesGitHubRepository(api: GitHubApi) : GitHubRepository {
+        return GitHubRepositoryImpl(api)
     }
 }
