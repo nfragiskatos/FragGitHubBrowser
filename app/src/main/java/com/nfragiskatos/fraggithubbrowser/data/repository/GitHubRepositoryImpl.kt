@@ -7,7 +7,9 @@ import com.nfragiskatos.fraggithubbrowser.domain.repository.GitHubRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class GitHubRepositoryImpl @Inject constructor(
     private val api: GitHubApi
 ) : GitHubRepository {
