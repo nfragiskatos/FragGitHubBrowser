@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nfragiskatos.fraggithubbrowser.domain.model.UserSearch
 import com.nfragiskatos.fraggithubbrowser.domain.repository.GitHubRepository
+import com.nfragiskatos.fraggithubbrowser.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
@@ -23,7 +24,11 @@ class UserSearchViewModel @Inject constructor(
             val results = repo.searchForUser("steve")
 
             results.collect {
-                _user.value = it.random()
+                when (it) {
+                    is Resource.Error -> TODO()
+                    is Resource.Loading -> TODO()
+                    is Resource.Success -> _user.value = it.data?.random() ?: UserSearch(0, "empty")
+                }
             }
         }
     }
