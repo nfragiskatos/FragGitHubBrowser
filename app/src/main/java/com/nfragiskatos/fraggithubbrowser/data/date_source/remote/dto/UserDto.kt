@@ -2,6 +2,7 @@ package com.nfragiskatos.fraggithubbrowser.data.date_source.remote.dto
 
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class UserDto(
     @SerializedName("avatar_url")
@@ -13,9 +14,9 @@ data class UserDto(
     @SerializedName("company")
     val company: Any,
     @SerializedName("created_at")
-    val createdAt: String,
+    val createdAt: Date,
     @SerializedName("email")
-    val email: Any,
+    val email: String,
     @SerializedName("events_url")
     val eventsUrl: String,
     @SerializedName("followers")
@@ -65,7 +66,7 @@ data class UserDto(
     @SerializedName("type")
     val type: String,
     @SerializedName("updated_at")
-    val updatedAt: String,
+    val updatedAt: Date,
     @SerializedName("url")
     val url: String
 )

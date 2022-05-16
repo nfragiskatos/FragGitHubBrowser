@@ -1,19 +1,13 @@
 package com.nfragiskatos.fraggithubbrowser.domain.repository
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import com.nfragiskatos.fraggithubbrowser.di.AppModule
-import com.nfragiskatos.fraggithubbrowser.domain.model.UserSearch
 import com.nfragiskatos.fraggithubbrowser.util.Resource
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -56,5 +50,18 @@ class GitHubRepositoryTest {
         assertThat(emissions[0]).isInstanceOf(Resource.Loading::class.java)
         assertThat(emissions[1]).isInstanceOf(Resource.Success::class.java)
         assertThat(emissions[2]).isInstanceOf(Resource.Loading::class.java)
+    }
+
+    @Test
+    fun getUserDetails_expecteCorrectFlowEmissions() = runTest {
+        val emissions = repo.getUserDetails("nfragiskatos")
+            .toList()
+        assertThat(emissions).hasSize(3)
+        assertThat(emissions[0]).isInstanceOf(Resource.Loading::class.java)
+        assertThat(emissions[1]).isInstanceOf(Resource.Success::class.java)
+        assertThat(emissions[2]).isInstanceOf(Resource.Loading::class.java)
+        val user = (emissions[1] as Resource.Success).data
+        assertThat(user).isNotNull()
+        assertThat(user!!.login).isEqualTo("nfragiskatos")
     }
 }
